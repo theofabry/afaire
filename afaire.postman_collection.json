@@ -1,0 +1,1554 @@
+{
+	"info": {
+		"_postman_id": "26f5af8f-b21a-44f7-bd60-7f10edaf1aa6",
+		"name": "afaire",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "list",
+					"item": [
+						{
+							"name": "List users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cc5c5c12-90cb-4b40-999f-bde4562f8e24",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site_url}}/users/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "create",
+					"item": [
+						{
+							"name": "Create user without email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "15881da6-d8bb-435d-8a83-955a664503c2",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error length is correct\", function() {",
+											"    pm.expect(jsonData.email.length).to.eql(1);",
+											"});",
+											"",
+											"pm.test(\"Error is correct\", function () {",
+											"    pm.expect(jsonData.email[0]).to.eql(\"This field is required.\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"test@gmail.com\",\n\t\"password\": \"mypassword\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create user without password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0b0901cb-e422-46a2-92a8-ddaff89de96e",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error length is correct\", function() {",
+											"    pm.expect(jsonData.password.length).to.eql(1);",
+											"});",
+											"",
+											"pm.test(\"Error is correct\", function () {",
+											"    pm.expect(jsonData.password[0]).to.eql(\"This field is required.\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"myuser\",\n\t\"email\": \"myemail@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create user without username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d324c8c8-78a5-4e2a-a1ef-98228b5c68f4",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error length is correct\", function () {",
+											"    pm.expect(jsonData.username.length).to.eql(1);",
+											"});",
+											"",
+											"pm.test(\"Error is correct\", function () {",
+											"    pm.expect(jsonData.username[0]).to.eql(\"This field is required.\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"password\": \"mypassword\",\n\t\"email\": \"myemail@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "681374fe-6967-4ef3-9064-b156931a6645",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Username is correct\", function () {",
+											"    pm.expect(jsonData.username).to.eql(pm.variables.get('username'));",
+											"});",
+											"",
+											"pm.test(\"Email is correct\", function () {",
+											"    pm.expect(jsonData.email).to.eql(pm.variables.get('username') + '@gmail.com');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6ad9a664-87b1-4184-a283-f2a62dc3aae2",
+										"exec": [
+											"pm.environment.set(\"username\", \"user\" + pm.variables.replaceIn('{{$timestamp}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"password\": \"mypassword\",\n\t\"email\": \"{{username}}@gmail.com\",\n\t\"username\": \"{{username}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e681bb33-d085-478c-bb73-462859c549f4",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Username is correct\", function () {",
+											"    pm.expect(jsonData.username).to.eql(pm.variables.get('username'));",
+											"});",
+											"",
+											"pm.test(\"Email is correct\", function () {",
+											"    pm.expect(jsonData.email).to.eql(pm.variables.get('username') + '@gmail.com');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "7d44e8ea-562f-46a7-80c5-35f7db6ced86",
+										"exec": [
+											"pm.environment.set(\"username\", \"user2\" + pm.variables.replaceIn('{{$timestamp}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"password\": \"mypassword\",\n\t\"email\": \"{{username}}@gmail.com\",\n\t\"username\": \"{{username}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login incorrect password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "26aa8ef1-c7ec-4d64-affe-2a2e7450021d",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error message is correct\", function () {",
+											"    pm.expect(jsonData.non_field_errors.length).to.eql(1);",
+											"    pm.expect(jsonData.non_field_errors[0]).to.eql(\"Unable to log in with provided credentials.\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"{{username}}\",\n\t\"password\": \"adminadmin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/login/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login with incorrect user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "eaae90ce-a8c7-4461-b766-92bb3d280921",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error message is correct\", function () {",
+											"    pm.expect(jsonData.non_field_errors.length).to.eql(1);",
+											"    pm.expect(jsonData.non_field_errors[0]).to.eql(\"Unable to log in with provided credentials.\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"notfound\",\n\t\"password\": \"mypassword\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/login/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "11d053a8-5464-4f5b-b91d-ec21be0418ee",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content is correct\", function () {",
+											"    pm.expect(jsonData.hasOwnProperty('token')).to.be.true;",
+											"    pm.expect(jsonData.token.length).to.be.gte(1);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"{{username}}\",\n\t\"password\": \"mypassword\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/login/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "create",
+					"item": [
+						{
+							"name": "WIthout login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ad308dd9-300f-4d2f-abe6-55c5d982121c",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error is correct\", function () {",
+											"    pm.expect(jsonData.detail).to.eql(\"Authentication credentials were not provided.\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"type": "text",
+										"value": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"content\": \"Mon contenu\",\n\t\"due_date\": \"2020-05-14\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "263e2e83-3e87-4cb0-9754-8840b22c5a7c",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Username is correct\", function () {",
+											"    pm.expect(jsonData.username).to.eql(pm.variables.get('username'));",
+											"});",
+											"",
+											"pm.test(\"Email is correct\", function () {",
+											"    pm.expect(jsonData.email).to.eql(pm.variables.get('username') + '@gmail.com');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9fad9bd5-83ea-4bd1-a42c-5fe8ca9ff41a",
+										"exec": [
+											"pm.environment.set(\"username\", \"user3\" + pm.variables.replaceIn('{{$timestamp}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"password\": \"mypassword\",\n\t\"email\": \"{{username}}@gmail.com\",\n\t\"username\": \"{{username}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "eb0b376f-14b6-45e2-9cb5-5c3d09da625b",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content is correct\", function () {",
+											"    pm.expect(jsonData.hasOwnProperty('token')).to.be.true;",
+											"    pm.expect(jsonData.token.length).to.be.gte(1);",
+											"});",
+											"",
+											"pm.environment.set('token', jsonData.token);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"{{username}}\",\n\t\"password\": \"mypassword\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/users/login/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"users",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Without status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5c677b97-0425-4085-92d2-a7630020d04d",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content is correct\", function () {",
+											"    pm.expect(jsonData.content).to.eql(\"Mon contenu\");",
+											"    pm.expect(jsonData.due_date).to.eql(\"2020-05-14\");",
+											"    pm.expect(jsonData.status).to.be.null;",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"content\": \"Mon contenu\",\n\t\"due_date\": \"2020-05-14\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "With status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "540c04f3-e584-425e-b2e7-6b75a27f5d21",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content is correct\", function () {",
+											"    pm.expect(jsonData.content).to.eql(\"Mon contenu\");",
+											"    pm.expect(jsonData.due_date).to.eql(\"2020-05-14\");",
+											"    pm.expect(jsonData.status).to.be.eql(2);",
+											"});",
+											"",
+											"pm.environment.set('task_id', jsonData.id);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"content\": \"Mon contenu\",\n\t\"due_date\": \"2020-05-14\",\n\t\"status\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check added",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "44553ddf-4663-4b4e-b8c0-cb7d6d85b074",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content is correct\", function () {",
+											"    pm.expect(jsonData.length).to.eql(2);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"content\": \"Mon contenu\",\n\t\"due_date\": \"2020-05-14\",\n\t\"status\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "list",
+					"item": [
+						{
+							"name": "Without login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "680f77e6-3657-4cd6-9d2f-81d655c0f4bf",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error is correct\", function () {",
+											"    pm.expect(jsonData.detail).to.eql(\"Authentication credentials were not provided.\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"type": "text",
+										"value": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fa0e33c2-77b7-4871-be17-c51c964cf3c6",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content is correct\", function () {",
+											"    pm.expect(jsonData.length).to.eql(2);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "details",
+					"item": [
+						{
+							"name": "Get details not found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "64aef10c-49c7-4cb4-a265-3f2cce761c3a",
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error is correct\", function () {",
+											"    pm.expect(jsonData.detail).to.eql(\"Not found.\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/2",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get details unauthorized",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "20cf444c-8b38-468c-a3e0-5b1e7087e22c",
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {",
+											"    pm.response.to.have.status(403);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error is correct\", function () {",
+											"    pm.expect(jsonData.detail).to.eql(\"Access denied\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/1",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2f9d7a38-748d-4496-8ea4-cf55a5cef968",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Error is correct\", function () {",
+											"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"task_id\"));",
+											"});",
+											"",
+											"pm.environment.set(\"task_content\", jsonData.content);",
+											"pm.environment.set(\"task_due_date\", jsonData.due_date);",
+											"pm.environment.set(\"task_status\", jsonData.status);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "update",
+					"item": [
+						{
+							"name": "Update id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "027a9eaa-ccbc-4202-ba77-9a3b5c0bf386",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content is not changed\", function () {",
+											"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"task_id\"));",
+											"    pm.expect(jsonData.content).to.eql(pm.environment.get(\"task_content\"));",
+											"    pm.expect(jsonData.due_date).to.eql(pm.environment.get(\"task_due_date\"));",
+											"    pm.expect(jsonData.status).to.eql(pm.environment.get(\"task_status\"));",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": \"41\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update content only",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4b7ee5bd-d3c2-4c79-92d5-52e7c23e4c29",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content only is changed\", function () {",
+											"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"task_id\"));",
+											"    pm.expect(jsonData.content).to.eql(\"My new content\");",
+											"    pm.expect(jsonData.due_date).to.eql(pm.environment.get(\"task_due_date\"));",
+											"    pm.expect(jsonData.status).to.eql(pm.environment.get(\"task_status\"));",
+											"});",
+											"",
+											"pm.environment.set(\"task_content\", jsonData.content);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"content\": \"My new content\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update due date only",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "91188cb2-e272-4c98-826b-7a19b7aa6f99",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content only is changed\", function () {",
+											"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"task_id\"));",
+											"    pm.expect(jsonData.content).to.eql(pm.environment.get(\"task_content\"));",
+											"    pm.expect(jsonData.due_date).to.eql(\"2021-05-14\");",
+											"    pm.expect(jsonData.status).to.eql(pm.environment.get(\"task_status\"));",
+											"});",
+											"",
+											"pm.environment.set(\"task_due_date\", jsonData.due_date);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"due_date\": \"2021-05-14\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update status only",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3c41438b-9f5f-440a-9509-7525478f4f15",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content only is changed\", function () {",
+											"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"task_id\"));",
+											"    pm.expect(jsonData.content).to.eql(pm.environment.get(\"task_content\"));",
+											"    pm.expect(jsonData.due_date).to.eql(pm.environment.get(\"task_due_date\"));",
+											"    pm.expect(jsonData.status).to.eql(0);",
+											"});",
+											"",
+											"pm.environment.set(\"task_status\", jsonData.status);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"status\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update all",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "32437cf4-d40d-47a9-8779-7caf00750074",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Content only is changed\", function () {",
+											"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"task_id\"));",
+											"    pm.expect(jsonData.content).to.eql(\"Again new content\");",
+											"    pm.expect(jsonData.due_date).to.eql(\"2022-05-14\");",
+											"    pm.expect(jsonData.status).to.eql(1);",
+											"});",
+											"",
+											"pm.environment.set(\"task_status\", jsonData.status);",
+											"pm.environment.set(\"task_content\", jsonData.content);",
+											"pm.environment.set(\"task_due_date\", jsonData.due_date);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"status\": 1,\n\t\"content\": \"Again new content\",\n\t\"due_date\": \"2022-05-14\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "delete",
+					"item": [
+						{
+							"name": "Get details Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "96522ebe-b1c7-4f40-b3ed-108010a5383c",
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Token {{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site_url}}/tasks/{{task_id}}",
+									"host": [
+										"{{site_url}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
