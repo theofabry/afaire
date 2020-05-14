@@ -12,6 +12,8 @@ markdown = "*"
 django-filter = "*"
 pygments = "*"
 psycopg2 = "*"
+django-heroku = "*"
+dj-database-url = "*"
 
 [requires]
 python_version = "3.8"
