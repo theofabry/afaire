@@ -1,5 +1,4 @@
 import datetime
-from collections import defaultdict
 
 from django.db import models
 
@@ -8,8 +7,11 @@ from users.models import User
 
 class TaskManager(models.Manager):
     def get_tasks_by_date(self, user: User):
-        tasks_by_date = defaultdict(list)
         tasks = self.filter(user=user, due_date__gte=datetime.date.today())
+        tasks_by_date = {}
+
+        for current_date in [datetime.date.today() + datetime.timedelta(n) for n in range(30)]:
+            tasks_by_date[current_date.strftime('%Y-%m-%d')] = []
 
         for task in tasks:
             tasks_by_date[task.due_date.strftime('%Y-%m-%d')].append({
