@@ -1,6 +1,25 @@
+import datetime
+from collections import defaultdict
+
 from django.db import models
 
 from users.models import User
+
+
+class TaskManager(models.Manager):
+    def get_tasks_by_date(self, user: User):
+        tasks_by_date = defaultdict(list)
+        tasks = self.filter(user=user, due_date__gte=datetime.date.today())
+
+        for task in tasks:
+            tasks_by_date[task.due_date.strftime('%Y-%m-%d')].append({
+                'id': task.pk,
+                'content': task.content,
+                'due_date': task.due_date,
+                'status': task.status,
+            })
+
+        return tasks_by_date
 
 
 class Task(models.Model):
@@ -20,8 +39,10 @@ class Task(models.Model):
 
     content = models.TextField()
     due_date = models.DateField()
-    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=True)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    objects = TaskManager()
