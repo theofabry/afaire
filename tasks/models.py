@@ -30,6 +30,7 @@ class Task(models.Model):
     STATUS_NOT_DONE_LAZINESS = 2
     STATUS_FAILED = 3
     STATUS_DONE_MULTIPLE_STEPS = 4
+    STATUS_TODO = 5
 
     STATUS_CHOICES = (
         (STATUS_DONE, 'Réalisé'),
@@ -37,11 +38,12 @@ class Task(models.Model):
         (STATUS_NOT_DONE_LAZINESS, 'Non réalisé, manque de temps/flemme'),
         (STATUS_FAILED, 'Echoué/abandonné'),
         (STATUS_DONE_MULTIPLE_STEPS, 'Réalisé après de nombreuses étapes'),
+        (STATUS_TODO, 'A faire'),
     )
 
     content = models.TextField()
     due_date = models.DateField()
-    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=True, blank=True)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=STATUS_TODO)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
