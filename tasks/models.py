@@ -32,6 +32,7 @@ class Task(models.Model):
     STATUS_FAILED = 3
     STATUS_DONE_MULTIPLE_STEPS = 4
     STATUS_TODO = 5
+    STATUS_PROGRESSED_NOT_DONE = 6
 
     STATUS_CHOICES = (
         (STATUS_DONE, 'Réalisé'),
@@ -40,6 +41,7 @@ class Task(models.Model):
         (STATUS_FAILED, 'Echoué/abandonné'),
         (STATUS_DONE_MULTIPLE_STEPS, 'Réalisé après de nombreuses étapes'),
         (STATUS_TODO, 'A faire'),
+        (STATUS_PROGRESSED_NOT_DONE, 'Avancé mais pas terminé'),
     )
 
     content = models.TextField()
