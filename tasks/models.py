@@ -55,3 +55,6 @@ class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     objects = TaskManager()
+
+    def __str__(self):
+        return 'Tâche de {}'.format(self.user.username)
