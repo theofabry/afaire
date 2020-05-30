@@ -8,7 +8,7 @@ from users.models import User
 class TaskManager(models.Manager):
     def get_tasks_by_date(self, user: User):
         start_date = datetime.date.today() - datetime.timedelta(days=7)
-        tasks = self.filter(user=user, due_date__gte=start_date)
+        tasks = self.filter(user=user, due_date__gte=start_date).order_by('due_date', 'content')
         tasks_by_date = {}
 
         for current_date in [start_date + datetime.timedelta(n) for n in range(37)]:
