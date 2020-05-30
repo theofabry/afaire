@@ -33,6 +33,7 @@ class Task(models.Model):
     STATUS_DONE_MULTIPLE_STEPS = 4
     STATUS_TODO = 5
     STATUS_PROGRESSED_NOT_DONE = 6
+    STATUS_DONE_NOT_PLANNED = 7
 
     STATUS_CHOICES = (
         (STATUS_DONE, 'Réalisé'),
@@ -42,6 +43,7 @@ class Task(models.Model):
         (STATUS_DONE_MULTIPLE_STEPS, 'Réalisé après de nombreuses étapes'),
         (STATUS_TODO, 'A faire'),
         (STATUS_PROGRESSED_NOT_DONE, 'Avancé mais pas terminé'),
+        (STATUS_DONE_NOT_PLANNED, 'Fait sans avoir été prévu'),
     )
 
     content = models.TextField()
