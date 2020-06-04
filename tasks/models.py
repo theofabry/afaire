@@ -1,4 +1,5 @@
 import datetime
+from collections import defaultdict
 
 from django.db import models
 
@@ -14,6 +15,20 @@ class TaskManager(models.Manager):
 
         for current_date in [start_date + datetime.timedelta(n) for n in range(38)]:
             tasks_by_date[current_date.strftime('%Y-%m-%d')] = []
+
+        for task in tasks:
+            tasks_by_date[task.due_date.strftime('%Y-%m-%d')].append({
+                'id': task.pk,
+                'content': task.content,
+                'due_date': task.due_date,
+                'status': task.status,
+            })
+
+        return tasks_by_date
+
+    def get_all_tasks_grouped_by_date(self, user: User):
+        tasks = self.filter(user=user).order_by('due_date', 'content')
+        tasks_by_date = defaultdict(list)
 
         for task in tasks:
             tasks_by_date[task.due_date.strftime('%Y-%m-%d')].append({
