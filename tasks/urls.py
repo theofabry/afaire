@@ -8,6 +8,7 @@ app_name = 'tasks'
 urlpatterns = [
     path('', views.TaskList.as_view(), name='list'),
     path('<int:task_pk>', views.TaskDetail.as_view(), name='details'),
+    path('tags/', views.TaskTagList.as_view(), name='tags-list'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

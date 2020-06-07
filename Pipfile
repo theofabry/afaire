@@ -17,6 +17,7 @@ dj-database-url = "*"
 gunicorn = "*"
 django-cors-headers = "*"
 sentry-sdk = "*"
+factory-boy = "*"
 
 [requires]
 python_version = "3.8"

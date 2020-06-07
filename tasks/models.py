@@ -41,6 +41,22 @@ class TaskManager(models.Manager):
         return tasks_by_date
 
 
+class TaskTag(models.Model):
+    class Meta:
+        unique_together = (
+            ('name', 'user'),
+        )
+
+    name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} pour {}'.format(self.name, self.user.username)
+
+
 class Task(models.Model):
     STATUS_DONE = 0
     STATUS_NOT_DONE_BEYOND_CONTROL = 1
@@ -69,6 +85,7 @@ class Task(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tags = models.ManyToManyField(TaskTag)
 
     objects = TaskManager()
 

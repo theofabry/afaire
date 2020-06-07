@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from tasks.models import Task
+from tasks.models import Task, TaskTag
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -22,3 +22,15 @@ class TaskExportSerializer(TaskSerializer):
             'due_date': instance.due_date,
             'status': Task.STATUS_CHOICES[instance.status][1],
         }
+
+
+class TaskTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskTag
+        fields = ['id', 'name', 'task_set']
+        read_only_fields = ['task_set']
+
+    def create(self, validated_data):
+        tag = TaskTag.objects.create(user=self.context['request'].user, **validated_data)
+
+        return tag
