@@ -10,15 +10,9 @@ from users.models import User
 from users.serializers import UserSerializer, UserCreationSerializer
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def users_list(request):
-    if request.method == 'GET':
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-
-        return Response(serializer.data)
-
-    elif request.method == 'POST':
+    if request.method == 'POST':
         serializer = UserCreationSerializer(data=request.data)
 
         if serializer.is_valid():
