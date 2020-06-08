@@ -1,5 +1,5 @@
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APITransactionTestCase
 
 from tasks.factories import TaskFactory, TaskTagFactory
 from tasks.models import TaskTag, Task
@@ -7,7 +7,7 @@ from users.factories import TokenFactory
 from users.models import User
 
 
-class TaskTagListTests(APITestCase):
+class TaskTagListTests(APITransactionTestCase):
     def setUp(self) -> None:
         self.token: Token = TokenFactory()
         self.user: User = self.token.user
@@ -54,6 +54,60 @@ class TaskTagListTests(APITestCase):
 
         self.assertEqual(response.status_code, 401)
 
+    def test_add_tag(self):
+        self.assertEqual(TaskTag.objects.filter(user=self.user).count(), 0)
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+
+        response = self.client.post('/tasks/tags/', {
+            'name': 'new tag',
+        })
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()['name'], 'new tag')
+        self.assertEqual(response.json()['task_set'],  [])
+        self.assertEqual(TaskTag.objects.filter(user=self.user).count(), 1)
+
+    def test_add_tag_same_name(self):
+        tag: TaskTag = TaskTagFactory(user=self.user)
+
+        self.assertEqual(TaskTag.objects.filter(user=self.user).count(), 1)
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+
+        response = self.client.post('/tasks/tags/', {
+            'name': tag.name,
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(TaskTag.objects.filter(user=self.user).count(), 1)
+
+    def test_add_tag_same_name_different_user(self):
+        tag: TaskTag = TaskTagFactory(user=self.user)
+        new_token: Token = TokenFactory()
+
+        self.assertEqual(TaskTag.objects.filter(user=self.user).count(), 1)
+        self.assertEqual(TaskTag.objects.filter(user=new_token.user).count(), 0)
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + new_token.key)
+
+        response = self.client.post('/tasks/tags/', {
+            'name': tag.name,
+        })
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()['name'], tag.name)
+        self.assertEqual(response.json()['task_set'], [])
+        self.assertEqual(TaskTag.objects.filter(user=self.user).count(), 1)
+        self.assertEqual(TaskTag.objects.filter(user=new_token.user).count(), 1)
+
+    def test_add_tag_not_logged_in(self):
+        response = self.client.post('/tasks/tags/', {
+            'name': 'test',
+        })
+
+        self.assertEqual(response.status_code, 401)
+
 
 class TaskTagDetailTests(APITestCase):
     def setUp(self) -> None:
@@ -80,11 +134,20 @@ class TaskTagDetailTests(APITestCase):
         self.assertEqual(response.json()['task_set'], [task.pk])
 
     def test_get_non_existent_tag(self):
-        pass
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        response = self.client.get(f'/tasks/tags/{self.tag.pk + 1}/')
+
+        self.assertEqual(response.status_code, 404)
 
     def test_get_unauthorized_tag(self):
-        pass
+        new_token: Token = TokenFactory()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + new_token.key)
+        response = self.client.get(f'/tasks/tags/{self.tag.pk}/')
+
+        self.assertEqual(response.status_code, 403)
 
     def test_get_tag_not_logged_in(self):
-        pass
+        response = self.client.get(f'/tasks/tags/{self.tag.pk}/')
 
+        self.assertEqual(response.status_code, 401)

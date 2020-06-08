@@ -5,7 +5,7 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_2
 from rest_framework.views import APIView
 
 from tasks.models import Task
-from tasks.serializers import TaskSerializer, TaskExportSerializer
+from tasks.serializers import TaskExportSerializer
 from users.models import User
 from users.serializers import UserSerializer, UserCreationSerializer
 

@@ -6,7 +6,8 @@ from tasks.models import Task, TaskTag
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['id', 'content', 'due_date', 'status']
+        fields = ['id', 'content', 'due_date', 'status', 'tags']
+        extra_kwargs = {'tags': {'required': False}}
 
     def create(self, validated_data):
         task = Task.objects.create(user=self.context['request'].user, **validated_data)
@@ -21,6 +22,7 @@ class TaskExportSerializer(TaskSerializer):
             'content': instance.content,
             'due_date': instance.due_date,
             'status': Task.STATUS_CHOICES[instance.status][1],
+            'tags': instance.tags,
         }
 
 

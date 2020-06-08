@@ -118,3 +118,14 @@ class TaskTagDetail(APIView):
         serializer = TaskTagSerializer(task_tag)
 
         return Response(serializer.data)
+
+    def patch(self, request, task_tag_pk):
+        task_tag: TaskTag = self.get_object(task_tag_pk)
+        serializer = TaskTagSerializer(task_tag, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
