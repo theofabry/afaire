@@ -16,6 +16,13 @@ class TaskPermission(BasePermission):
         return request.user == obj.user
 
 
+class TaskTagPermission(BasePermission):
+    message = 'Access denied'
+
+    def has_object_permission(self, request, view, obj):
+        return request.user == obj.user
+
+
 class TaskList(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -50,6 +57,7 @@ class TaskDetail(APIView):
     def get(self, request, task_pk):
         task: Task = self.get_object(task_pk=task_pk)
         serializer = TaskSerializer(task)
+
         return Response(serializer.data)
 
     def patch(self, request, task_pk):
@@ -91,3 +99,22 @@ class TaskTagList(APIView):
             return Response(serializer.data, status=HTTP_201_CREATED)
 
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+class TaskTagDetail(APIView):
+    permission_classes = [IsAuthenticated, TaskTagPermission]
+
+    def get_object(self, task_tag_pk):
+        try:
+            task_tag: TaskTag = TaskTag.objects.get(pk=task_tag_pk)
+            self.check_object_permissions(self.request, task_tag)
+
+            return TaskTag.objects.get(pk=task_tag_pk)
+        except TaskTag.DoesNotExist:
+            raise Http404
+
+    def get(self, request, task_tag_pk):
+        task_tag: Task = self.get_object(task_tag_pk=task_tag_pk)
+        serializer = TaskTagSerializer(task_tag)
+
+        return Response(serializer.data)
