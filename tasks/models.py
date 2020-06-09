@@ -46,6 +46,7 @@ class TaskTag(models.Model):
         unique_together = (
             ('name', 'user'),
         )
+        ordering = ('name',)
 
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

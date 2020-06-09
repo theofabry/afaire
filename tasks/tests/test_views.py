@@ -7,6 +7,52 @@ from users.factories import TokenFactory
 from users.models import User
 
 
+class TaskDetailTests(APITestCase):
+    def setUp(self) -> None:
+        self.token: Token = TokenFactory()
+        self.user: User = self.token.user
+        self.task: Task = TaskFactory(user=self.user)
+
+    def test_add_tag(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        tag: TaskTag = TaskTagFactory(user=self.user)
+
+        self.assertEqual(self.task.tags.count(), 0)
+
+        response = self.client.patch(f'/tasks/{self.task.pk}', {
+            'tags': [tag.pk, ]
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.task.tags.count(), 1)
+
+    def test_add_non_existent_tag(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+
+        self.assertEqual(self.task.tags.count(), 0)
+
+        response = self.client.patch(f'/tasks/{self.task.pk}', {
+            'tags': [2, ]
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertTrue('object does not exist.' in response.json()['tags'][0])
+
+    def test_add_tag_not_same_user(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+
+        tag: TaskTag = TaskTagFactory()
+
+        self.assertNotEqual(tag.user, self.user)
+
+        response = self.client.patch(f'/tasks/{self.task.pk}', {
+            'tags': [tag.pk, ]
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual('This tag is not owned by the user.', response.json()['tags'][0])
+
+
 class TaskTagListTests(APITransactionTestCase):
     def setUp(self) -> None:
         self.token: Token = TokenFactory()

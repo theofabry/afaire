@@ -14,6 +14,13 @@ class TaskSerializer(serializers.ModelSerializer):
 
         return task
 
+    def validate_tags(self, value):
+        for tag in value:
+            if tag.user != self.instance.user:
+                raise serializers.ValidationError('This tag is not owned by the user.')
+
+        return value
+
 
 class TaskExportSerializer(TaskSerializer):
     def to_representation(self, instance):
