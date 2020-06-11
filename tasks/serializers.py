@@ -3,6 +3,18 @@ from rest_framework import serializers
 from tasks.models import Task, TaskTag
 
 
+class TaskTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskTag
+        fields = ['id', 'name', 'task_set']
+        read_only_fields = ['task_set']
+
+    def create(self, validated_data):
+        tag = TaskTag.objects.create(user=self.context['request'].user, **validated_data)
+
+        return tag
+
+
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
@@ -22,6 +34,10 @@ class TaskSerializer(serializers.ModelSerializer):
         return value
 
 
+class TaskDetailSerializer(TaskSerializer):
+    tags = TaskTagSerializer(many=True)
+
+
 class TaskExportSerializer(TaskSerializer):
     def to_representation(self, instance):
         return {
@@ -31,15 +47,3 @@ class TaskExportSerializer(TaskSerializer):
             'status': Task.STATUS_CHOICES[instance.status][1],
             'tags': instance.tags,
         }
-
-
-class TaskTagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TaskTag
-        fields = ['id', 'name', 'task_set']
-        read_only_fields = ['task_set']
-
-    def create(self, validated_data):
-        tag = TaskTag.objects.create(user=self.context['request'].user, **validated_data)
-
-        return tag

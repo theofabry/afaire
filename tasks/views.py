@@ -2,11 +2,12 @@ from django.db import IntegrityError
 from django.http import Http404
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT, HTTP_409_CONFLICT, \
+    HTTP_200_OK
 from rest_framework.views import APIView
 
 from tasks.models import Task, TaskTag
-from tasks.serializers import TaskSerializer, TaskTagSerializer
+from tasks.serializers import TaskSerializer, TaskTagSerializer, TaskDetailSerializer
 
 
 class TaskPermission(BasePermission):
@@ -56,7 +57,7 @@ class TaskDetail(APIView):
 
     def get(self, request, task_pk):
         task: Task = self.get_object(task_pk=task_pk)
-        serializer = TaskSerializer(task)
+        serializer = TaskDetailSerializer(task)
 
         return Response(serializer.data)
 
@@ -94,7 +95,10 @@ class TaskTagList(APIView):
             try:
                 serializer.save()
             except IntegrityError:
-                return Response({'name': ['This name already exists.']}, status=HTTP_400_BAD_REQUEST)
+                tag: TaskTag = TaskTag.objects.get(user=self.request.user, name=serializer.validated_data['name'])
+                serializer = TaskTagSerializer(tag)
+
+                return Response(serializer.data, status=HTTP_200_OK)
 
             return Response(serializer.data, status=HTTP_201_CREATED)
 

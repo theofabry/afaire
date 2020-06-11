@@ -125,7 +125,7 @@ class TaskTagListTests(APITransactionTestCase):
             'name': tag.name,
         })
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(TaskTag.objects.filter(user=self.user).count(), 1)
 
     def test_add_tag_same_name_different_user(self):
