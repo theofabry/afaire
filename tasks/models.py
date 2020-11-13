@@ -22,6 +22,7 @@ class TaskManager(models.Manager):
                 'content': task.content,
                 'due_date': task.due_date,
                 'status': task.status,
+                'tags': [{'id': tag.id, 'name': tag.name} for tag in task.tags.all()],
             })
 
         return tasks_by_date
