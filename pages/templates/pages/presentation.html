@@ -1,0 +1,91 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Présentation | afaire</title>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'pages/css/presentation.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md text-center">
+            <h2>Faites les choses vite et bien</h2>
+
+            <p>afaire vous permet d'avancer dans vos tâches simplement et de retrouver la satisfaction d'accomplir des choses.</p>
+
+        </div>
+    </div>
+
+    <div class="row text-center promo-columns">
+        <div class="col-md-4">
+            <p class="text-primary">
+                <span class="material-icons">flash_on</span>
+            </p>
+
+            <p class="promo-caption">Juste l'essentiel</p>
+
+            <p>
+                Pas de fonctionnalités compliquées, pas d'interface chargée. afaire se concentre sur une seule chose : ce que vous avez fait et ce que vous devez accomplir.
+            </p>
+        </div>
+
+        <div class="col-md-4">
+            <p class="text-primary">
+                <span class="material-icons">done_all</span>
+            </p>
+
+            <p class="promo-caption">Moins de procrastination</p>
+
+            <p>
+                afaire intègre des mécanismes motivationnels qui vous donneront envie d'aller au bout de vos tâches.
+            </p>
+        </div>
+
+        <div class="col-md-4">
+            <p class="text-primary">
+                <span class="material-icons">all_inclusive</span>
+            </p>
+
+            <p class="promo-caption">Simple, mais pas simpliste</p>
+
+            <p>
+                afaire s'adapte à votre méthode, et non l'inverse. Utilisez-le de la façon qui vous convient le mieux.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md">
+            <h4 class="text-center">D'où vient ce projet ?</h4>
+
+            <p>L'idée de ce projet m'a été inspirée par <a rel="noreferrer noopener" href="https://twitter.com/FibreTigre" target="_blank">@FibreTigre</a>, et notamment par l'article de blog présentant son agenda de l'année.</p>
+
+            <p>
+                Moi-même ayant testé plusieurs applications de todo, aucune ne me satisfaisait réellement. Sa méthode a bien fonctionné, et je me suis dit que plutôt que d'utiliser un Excel hors-ligne ou un service cloud, une application Web que je pourrai enrichir au fur et à mesure serait intéressante.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md">
+            <h4 class="text-center">C'est open-source ?</h4>
+
+            <p>
+                Oui ! Le projet est open source, et est <a rel="noreferrer noopener" href="https://github.com/theofabry/afaire" target="_blank">disponible sur GitHub</a>.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md">
+            <h4 class="text-center">Informations légales️</h4>
+
+            <p>
+                Vous avez un peu de temps à perdre ? Voici les différentes informations légales sur afaire : <a href="{% url 'pages:mentions-legales' %}">Mentions Légales</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}

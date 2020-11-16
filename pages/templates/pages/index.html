@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'pages/css/index.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md text-center">
+            <h1 class="text-primary">afaire</h1>
+
+            <p>Une application de todo-list pas comme les autres.</p>
+
+            <p><a href="{% url 'pages:presentation' %}" class="btn btn-primary btn-lg">En savoir plus</a> <a href="#" class="btn btn-primary btn-lg">Inscription</a></p>
+        </div>
+    </div>
+{% endblock %}

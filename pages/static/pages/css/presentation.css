@@ -1,0 +1,24 @@
+h2 {
+    font-weight: 300;
+    font-size: 4.2rem;
+    padding-bottom: 1rem;
+}
+
+.promo-caption {
+    font-size: 1.7rem;
+    font-weight: 500;
+}
+
+h4 {
+    font-weight: 300;
+    font-size: 2.28rem;
+    margin-bottom: 1rem;
+}
+
+.material-icons {
+    font-size: 8rem;
+}
+
+.promo-columns {
+    margin-top: 2rem;
+}
