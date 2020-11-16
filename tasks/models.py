@@ -7,6 +7,12 @@ from users.models import User
 
 
 class TaskManager(models.Manager):
+    def get_close_tasks(self, user: User):
+        start_date = datetime.date.today() - datetime.timedelta(days=7)
+        end_date = datetime.date.today() + datetime.timedelta(days=30)
+
+        return self.filter(user=user, due_date__gte=start_date, due_date__lte=end_date)
+
     def get_tasks_by_date(self, user: User):
         start_date = datetime.date.today() - datetime.timedelta(days=7)
         end_date = datetime.date.today() + datetime.timedelta(days=30)

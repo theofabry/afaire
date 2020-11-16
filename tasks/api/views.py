@@ -5,7 +5,7 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_2
 from rest_framework.views import APIView
 
 from tasks.models import Task
-from tasks.serializers import TaskSerializer
+from tasks.api.serializers import TaskSerializer
 
 
 class TaskPermission(BasePermission):
@@ -19,9 +19,11 @@ class TaskList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        tasks_by_date = Task.objects.get_tasks_by_date(user=self.request.user)
+        tasks: [Task] = Task.objects.get_close_tasks(user=request.user)
 
-        return Response(tasks_by_date)
+        serializer = TaskSerializer(tasks, many=True)
+
+        return Response(serializer.data)
 
     def post(self, request):
         serializer = TaskSerializer(data=request.data, context={'request': self.request})

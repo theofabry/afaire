@@ -5,9 +5,9 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_2
 from rest_framework.views import APIView
 
 from tasks.models import Task
-from tasks.serializers import TaskSerializer, TaskExportSerializer
+from tasks.api.serializers import TaskExportSerializer
 from users.models import User
-from users.serializers import UserSerializer, UserCreationSerializer
+from users.api.serializers import UserSerializer, UserCreationSerializer
 
 
 @api_view(['POST'])
