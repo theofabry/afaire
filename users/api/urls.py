@@ -4,7 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 from users.api import views
 
-app_name = 'users'
+app_name = 'users-api'
 
 urlpatterns = [
     path('', views.users_list, name='list'),

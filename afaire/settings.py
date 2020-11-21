@@ -139,9 +139,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -185,6 +185,16 @@ try:
     )
 except KeyError:
     pass
+
+
+# Crispy
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# Auth
+LOGIN_URL = '/utilisateurs/login/'
+LOGIN_REDIRECT_URL = '/taches/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 # Local settings

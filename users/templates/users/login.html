@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    <title>Connexion | afaire</title>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md">
+            {% crispy form %}
+        </div>
+    </div>
+{% endblock %}
