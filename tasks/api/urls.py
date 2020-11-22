@@ -3,7 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 from tasks.api import views
 
-app_name = 'tasks'
+app_name = 'tasks-api'
 
 urlpatterns = [
     path('', views.TaskList.as_view(), name='list'),

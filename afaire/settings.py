@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'crispy_forms',
+    'mathfilters',
     # Local apps
     'users.apps.UsersConfig',
     'tasks.apps.TasksConfig',
@@ -195,6 +196,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_URL = '/utilisateurs/login/'
 LOGIN_REDIRECT_URL = '/taches/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Tasks
+TASKS_PAST_DAYS = 7
+TASKS_FUTURE_DAYS = 30
 
 
 # Local settings

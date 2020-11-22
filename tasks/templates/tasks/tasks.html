@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+{% load mathfilters %}
+{% load static %}
+
+{% block title %}
+    <title>Tâches | afaire</title>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'tasks/css/tasks.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% for date in tasks_by_date %}
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card h-100 bg-primary text-white">
+                    <div class="card-body">
+                        <p>{{ date.date }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {% for task in date.tasks %}
+                <div class="col-md-2 {% if forloop.counter|mod:5 == 1 and forloop.counter > 1 %}offset-md-2{% endif %}">
+                    <div class="card
+                                {% if task.status == task.STATUS_DONE %}
+                                    bg-success
+                                {% elif task.status == task.STATUS_NOT_DONE_BEYOND_CONTROL %}
+                                    bg-purple
+                                {% elif task.status == task.STATUS_NOT_DONE_LAZINESS %}
+                                    bg-warning
+                                {% elif task.status == task.STATUS_FAILED %}
+                                    bg-danger
+                                {% elif task.status == task.STATUS_DONE_MULTIPLE_STEPS %}
+                                    bg-primary
+                                {% elif task.status == task.STATUS_TODO %}
+                                    bg-light
+                                {% elif task.status == task.STATUS_PROGRESSED_NOT_DONE %}
+                                    bg-info
+                                {% elif task.status == task.STATUS_DONE_NOT_PLANNED %}
+                                    bg-green-darken
+                                {% endif %}
+                                h-100">
+                        <div class="card-body {% if task.status != task.STATUS_TODO %}text-white{% endif %}">
+                            <p>{{ task.content }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

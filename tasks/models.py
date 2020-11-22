@@ -3,31 +3,26 @@ from collections import defaultdict
 
 from django.db import models
 
+from afaire import settings
 from users.models import User
 
 
 class TaskManager(models.Manager):
     def get_close_tasks(self, user: User):
-        start_date = datetime.date.today() - datetime.timedelta(days=7)
-        end_date = datetime.date.today() + datetime.timedelta(days=30)
+        start_date = datetime.date.today() - datetime.timedelta(days=settings.TASKS_PAST_DAYS)
+        end_date = datetime.date.today() + datetime.timedelta(days=settings.TASKS_FUTURE_DAYS)
 
         return self.filter(user=user, due_date__gte=start_date, due_date__lte=end_date)
 
-    def get_tasks_by_date(self, user: User):
-        start_date = datetime.date.today() - datetime.timedelta(days=7)
-        end_date = datetime.date.today() + datetime.timedelta(days=30)
-        tasks = self.filter(user=user, due_date__gte=start_date, due_date__lte=end_date).order_by('due_date', 'content')
-        tasks_by_date = {}
+    def get_tasks_by_date(self, user: User) -> []:
+        tasks_by_date = []
 
-        for current_date in [start_date + datetime.timedelta(n) for n in range(38)]:
-            tasks_by_date[current_date.strftime('%Y-%m-%d')] = []
+        for i in range(-settings.TASKS_PAST_DAYS, settings.TASKS_FUTURE_DAYS):
+            current_date = datetime.date.today() + datetime.timedelta(days=i)
 
-        for task in tasks:
-            tasks_by_date[task.due_date.strftime('%Y-%m-%d')].append({
-                'id': task.pk,
-                'content': task.content,
-                'due_date': task.due_date,
-                'status': task.status,
+            tasks_by_date.append({
+                'date': current_date,
+                'tasks': self.filter(user=user, due_date=current_date),
             })
 
         return tasks_by_date
