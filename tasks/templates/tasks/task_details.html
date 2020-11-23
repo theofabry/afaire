@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+    <title>Détail de la tâche | afaire</title>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'tasks/css/task_details.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center">Qu'est-ce qui a changé ? 🧐</h1>
+                {% crispy form %}
+
+                <form action="{% url 'tasks:delete' task.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger" value="On supprime. 💣">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

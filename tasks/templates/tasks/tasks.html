@@ -11,19 +11,20 @@
 {% endblock %}
 
 {% block body %}
-    {% for date in tasks_by_date %}
-        <div class="row">
-            <div class="col-md-2">
-                <div class="card h-100 bg-primary text-white">
-                    <div class="card-body">
-                        <p>{{ date.date }}</p>
+    <div class="container-fluid">
+        {% for date in tasks_by_date %}
+            <div class="row" id="date-col-{{ date.date.year }}-{{ date.date.month }}-{{ date.date.day }}">
+                <div class="col-md-2">
+                    <div class="card h-100 bg-primary text-white">
+                        <div class="card-body">
+                            <p>{{ date.date }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {% for task in date.tasks %}
-                <div class="col-md-2 {% if forloop.counter|mod:5 == 1 and forloop.counter > 1 %}offset-md-2{% endif %}">
-                    <div class="card
+                {% for task in date.tasks %}
+                    <div class="col-md-2 {% if forloop.counter|mod:5 == 1 and forloop.counter > 1 %}offset-md-2{% endif %}">
+                        <div class="card
                                 {% if task.status == task.STATUS_DONE %}
                                     bg-success
                                 {% elif task.status == task.STATUS_NOT_DONE_BEYOND_CONTROL %}
@@ -42,12 +43,25 @@
                                     bg-green-darken
                                 {% endif %}
                                 h-100">
-                        <div class="card-body {% if task.status != task.STATUS_TODO %}text-white{% endif %}">
-                            <p>{{ task.content }}</p>
+                            <div class="card-body {% if task.status != task.STATUS_TODO %}text-white{% endif %}">
+                                <p>{{ task.content }}<a href="{% url 'tasks:details' task.pk %}"
+                                                        class="stretched-link"></a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="col-md-2 {% if date.tasks.count|mod:5 == 0 and date.tasks.count > 0 %}offset-md-2{% endif %}">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <p>Ajouter<a href="{% url 'tasks:add' %}?pour_le={{ date.date.year }}-{{ date.date.month }}-{{ date.date.day }}" class="stretched-link"></a></p>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="application/javascript" src="{% static 'tasks/js/tasks.js' %}"></script>
 {% endblock %}
