@@ -41,6 +41,9 @@
                 <li class="nav-item {% if active_menu == 'tasks' %}active{% endif %}">
                     <a class="nav-link" href="{% url 'tasks:list' %}">Tâches</a>
                 </li>
+                <li class="nav-item {% if active_menu == 'new_task' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'tasks:add' %}">Nouvelle tâche</a>
+                </li>
             {% else %}
                 <li class="nav-item {% if active_menu == 'index' %}active{% endif %}">
                     <a class="nav-link" href="{% url 'pages:index' %}">Accueil <span
