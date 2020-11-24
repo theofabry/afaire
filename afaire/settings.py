@@ -193,7 +193,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 # Auth
-LOGIN_URL = '/utilisateurs/login/'
+LOGIN_URL = '/utilisateurs/connexion'
 LOGIN_REDIRECT_URL = '/taches/'
 LOGOUT_REDIRECT_URL = '/'
 

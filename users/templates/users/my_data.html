@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Mes données | afaire</title>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'users/css/my_data.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md text-center">
+                <h1>Hey, {{ request.user.username }} 👋</h1>
+
+                <h2>Télécharger mes données 📦</h2>
+
+                <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous avez le droit à la portabilité de vos données.</p>
+
+                <p>afaire prend cela particulièrement à coeur, et vous permet donc de télécharger l'ensemble de celles-ci. Pour ce faire, cliquez sur le gros bouton ci-dessous !</p>
+
+                <a href="{% url 'users:my-data-download' %}" class="btn btn-primary btn-lg">Mes données en JSON 🧑‍💻</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -6,8 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
 
     {% block title %}
         <title>afaire</title>
@@ -39,15 +37,32 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item {% if active_menu == 'index' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'pages:index' %}">Accueil <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item {% if active_menu == 'presentation' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'pages:presentation' %}">Présentation</a>
-            </li>
             {% if user.is_authenticated %}
                 <li class="nav-item {% if active_menu == 'tasks' %}active{% endif %}">
                     <a class="nav-link" href="{% url 'tasks:list' %}">Tâches</a>
+                </li>
+            {% else %}
+                <li class="nav-item {% if active_menu == 'index' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'pages:index' %}">Accueil <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item {% if active_menu == 'presentation' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'pages:presentation' %}">Présentation</a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item dropdown {% if active_menu == 'users' %}active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Mon compte
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'users:my-information' %}">Mes infos</a>
+                        <a class="dropdown-item" href="{% url 'users:my-data' %}">Mes données</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'users:logout' %}">Déconnexion</a>
@@ -83,8 +98,8 @@
     {% endif %}
 </div>
 
-    {% block body %}
-    {% endblock %}
+{% block body %}
+{% endblock %}
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -93,7 +108,7 @@
 <script>window.jQuery || document.write('<script src="{% static 'js/jquery.slim.min.js' %}"><\/script>')</script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"
         crossorigin="anonymous"></script>
-    {% block javascripts %}
-    {% endblock %}
+{% block javascripts %}
+{% endblock %}
 </body>
 </html>

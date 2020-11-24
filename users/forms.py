@@ -1,7 +1,9 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.forms import EmailField
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.core.exceptions import ValidationError
+from django.forms import EmailField, ModelForm, Form, CharField, PasswordInput
+from django.urls import reverse
 
 from users.models import User
 
@@ -28,3 +30,25 @@ class LoginForm(AuthenticationForm):
 
         self.helper = FormHelper()
         self.helper.add_input(Submit('submit', 'Connexion'))
+
+
+class EmailModificationForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['email']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.add_input(Submit('submit', 'Je change mon email'))
+        self.helper._form_action = reverse('users:update-email')
+
+
+class PasswordModificationForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.add_input(Submit('submit', 'Je change mon mot de passe'))
+        self.helper._form_action = reverse('users:update-password')

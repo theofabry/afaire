@@ -1,12 +1,18 @@
 from django.contrib import messages
 from django.contrib.auth import login as login_action
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.core.handlers.wsgi import WSGIRequest
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.decorators.http import require_POST
+from rest_framework.status import HTTP_200_OK
 
-from users.forms import RegistrationForm, LoginForm
+from tasks.api.serializers import TaskExportSerializer
+from tasks.models import Task
+from users.forms import RegistrationForm, LoginForm, EmailModificationForm, PasswordModificationForm
 from users.models import User
 
 
@@ -40,3 +46,75 @@ class LoginView(SuccessMessageMixin, BaseLoginView):
     success_url = '/'
     authentication_form = LoginForm
     success_message = 'Vous êtes maintenant connecté !'
+
+
+@login_required
+def my_data(request: WSGIRequest):
+    return render(request, 'users/my_data.html', {
+        'active_menu': 'users',
+    })
+
+
+@login_required
+def download_my_data(request: WSGIRequest):
+    tasks = Task.objects.filter(user=request.user)
+    serializer = TaskExportSerializer(tasks, many=True)
+
+    response = HttpResponse(serializer.data, status=HTTP_200_OK)
+    response['Content-Disposition'] = 'attachment; filename=mes-donnes-afaire.json'
+
+    return response
+
+
+@login_required
+def my_information(request: WSGIRequest):
+    email_form = EmailModificationForm()
+    password_form = PasswordModificationForm(user=request.user)
+
+    return render(request, 'users/my_information.html', {
+        'email_form': email_form,
+        'password_form': password_form,
+        'active_menu': 'users',
+    })
+
+
+@login_required
+@require_POST
+def update_email(request: WSGIRequest):
+    email_form = EmailModificationForm(data=request.POST, instance=request.user)
+
+    if email_form.is_valid():
+        email_form.save()
+
+        messages.add_message(request, messages.SUCCESS, 'Votre e-mail a bien été modifié !')
+
+        return redirect(reverse('users:my-information'))
+
+    return render(request, 'users/my_information.html', {
+        'email_form': email_form,
+        'password_form': PasswordModificationForm(user=request.user),
+        'active_menu': 'users',
+    })
+
+
+@login_required
+@require_POST
+def update_password(request: WSGIRequest):
+    password_form = PasswordModificationForm(data=request.POST, user=request.user)
+
+    if password_form.is_valid():
+
+        request.user.set_password(password_form.cleaned_data['new_password1'])
+        request.user.save()
+
+        messages.add_message(request, messages.SUCCESS, 'Votre mot de passe a bien été modifié !')
+
+        login_action(request, request.user)
+
+        return redirect(reverse('users:my-information'))
+
+    return render(request, 'users/my_information.html', {
+        'password_form': password_form,
+        'email_form': EmailModificationForm(),
+        'active_menu': 'users',
+    })
