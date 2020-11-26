@@ -202,6 +202,10 @@ TASKS_PAST_DAYS = 7
 TASKS_FUTURE_DAYS = 30
 
 
+# Emails backend
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 # Local settings
 try:
     from .local_settings import *

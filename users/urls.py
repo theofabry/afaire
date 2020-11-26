@@ -14,4 +14,9 @@ urlpatterns = [
     path('mes-infos', views.my_information, name='my-information'),
     path('e-mail', views.update_email, name='update-email'),
     path('mot-de-passe', views.update_password, name='update-password'),
+    path('mot-de-passe-oublie', views.ResetPassword.as_view(), name='reset-password'),
+    path('mot-de-passe-oublie-fait', views.ResetPasswordDone.as_view(), name='reset-password-done'),
+    path('mot-de-passe-oublie-confirmation/<str:uidb64>/<str:token>', views.ResetPasswordConfirm.as_view(),
+         name='reset-password-confirm'),
+    path('mot-de-passe-oublie-termine', views.ResetPasswordComplete.as_view(), name='reset-password-complete'),
 ]

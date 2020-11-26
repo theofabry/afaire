@@ -21,6 +21,8 @@ class TaskForm(ModelForm):
 
 
 class AddTaskForm(TaskForm):
+    status = ChoiceField(label='Où on en est ?', choices=Task.STATUS_CHOICES, initial=Task.STATUS_TODO)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
