@@ -43,11 +43,10 @@ def register(request: WSGIRequest):
     })
 
 
-class LoginView(SuccessMessageMixin, BaseLoginView):
+class LoginView(BaseLoginView):
     template_name = 'users/login.html'
     success_url = '/'
     authentication_form = LoginForm
-    success_message = 'Vous êtes maintenant connecté !'
 
 
 @login_required
