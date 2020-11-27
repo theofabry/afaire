@@ -1,5 +1,5 @@
-let yesterdayDate = new Date();
-yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+const todayDate = new Date();
+const navbar = document.getElementById('menu-navbar');
 
 function formatDateToString(date) {
     const day = (date.getDate() < 10 ? '0' : '') + date.getDate();
@@ -9,6 +9,10 @@ function formatDateToString(date) {
     return date.getFullYear() + '-' + month + '-' + day;
 }
 
-const yesterdayDateElement = document.getElementById('date-col-' + formatDateToString(yesterdayDate));
+const todayDateElement = document.getElementById('date-col-' + formatDateToString(todayDate));
 
-yesterdayDateElement.scrollIntoView();
+// Scrolling to current date element
+todayDateElement.scrollIntoView();
+
+// Adding to scroll navbar height + 10px margin
+window.scrollBy(0,-(navbar.offsetHeight + 10));

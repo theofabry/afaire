@@ -19,6 +19,7 @@ django-cors-headers = "*"
 sentry-sdk = "*"
 django-crispy-forms = "*"
 django-mathfilters = "*"
+django-mailjet = "*"
 
 [requires]
 python_version = "3.8"

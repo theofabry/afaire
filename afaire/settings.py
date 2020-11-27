@@ -203,7 +203,13 @@ TASKS_FUTURE_DAYS = 30
 
 
 # Emails backend
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+DEFAULT_FROM_EMAIL = 'admin@afaire.app'
+try:
+    MAILJET_API_KEY = os.environ['MAILJET_API_KEY']
+    MAILJET_API_SECRET = os.environ['MAILJET_API_SECRET']
+except KeyError:
+    pass
 
 
 # Local settings

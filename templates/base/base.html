@@ -28,8 +28,8 @@
     <meta name="theme-color" content="#563d7c">
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-    <a class="navbar-brand" href="#">afaire</a>
+<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top" id="menu-navbar">
+    <a class="navbar-brand" href="{% url 'pages:index' %}">afaire</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -38,14 +38,16 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             {% if user.is_authenticated %}
-                <li class="nav-item {% if active_menu == 'tasks' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'tasks:list' %}">Tâches</a>
+                <li class="nav-item dropdown {% if active_menu == 'tasks' %}active{% endif %}">
+                    <a class="nav-link dropdown-toggle" href="#" id="tasksDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Tâches
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="tasksDropdown">
+                        <a class="dropdown-item" href="{% url 'tasks:list' %}">Liste</a>
+                        <a class="dropdown-item" href="{% url 'tasks:add' %}">Nouvelle tâche</a>
+                    </div>
                 </li>
-                {% if active_menu == 'tasks' %}
-                    <li class="nav-item">
-                        <a class="btn btn-outline-warning my-2 my-sm-0" href="{% url 'tasks:add' %}">Nouvelle tâche</a>
-                    </li>
-                {% endif %}
 
             {% else %}
                 <li class="nav-item {% if active_menu == 'index' %}active{% endif %}">
