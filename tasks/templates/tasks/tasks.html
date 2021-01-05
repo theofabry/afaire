@@ -53,7 +53,7 @@
                 <div class="col-md-2 {% if date.tasks.count|mod:5 == 0 and date.tasks.count > 0 %}offset-md-2{% endif %}">
                     <div class="card h-100">
                         <div class="card-body">
-                            <p>Ajouter<a href="{% url 'tasks:add' %}?pour_le={{ date.date.year }}-{% if date.date.monthu     < 10 %}0{% endif %}{{ date.date.month }}-{% if date.date.day < 10 %}0{% endif %}{{ date.date.day }}" class="stretched-link"></a></p>
+                            <p>Ajouter<a href="{% url 'tasks:add' %}?pour_le={{ date.date.year }}-{% if date.date.month < 10 %}0{% endif %}{{ date.date.month }}-{% if date.date.day < 10 %}0{% endif %}{{ date.date.day }}" class="stretched-link"></a></p>
                         </div>
                     </div>
                 </div>

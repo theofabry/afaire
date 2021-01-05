@@ -11,7 +11,7 @@ from users.api.serializers import UserSerializer, UserCreationSerializer
 
 
 @api_view(['POST'])
-def users_list(request):
+def users_list(request, *args, **kwargs):
     if request.method == 'POST':
         serializer = UserCreationSerializer(data=request.data)
 

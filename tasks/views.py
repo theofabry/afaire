@@ -12,7 +12,7 @@ from tasks.models import Task
 
 
 @login_required
-def tasks_list(request: WSGIRequest):
+def tasks_list(request: WSGIRequest, *args, **kwargs):
     tasks_by_date: [Task] = Task.objects.get_tasks_by_date(request.user)
 
     return render(request, 'tasks/tasks.html', {
@@ -22,7 +22,7 @@ def tasks_list(request: WSGIRequest):
 
 
 @login_required
-def task_details(request: WSGIRequest, task_pk: int):
+def task_details(request: WSGIRequest, task_pk: int, *args, **kwargs):
     task: Task = get_object_or_404(Task, pk=task_pk)
 
     if task.user != request.user:
@@ -48,7 +48,7 @@ def task_details(request: WSGIRequest, task_pk: int):
 
 
 @login_required
-def task_add(request: WSGIRequest):
+def task_add(request: WSGIRequest, *args, **kwargs):
     due_date: Optional[str] = request.GET.get('pour_le')
 
     form = AddTaskForm(initial={'due_date': due_date})
@@ -69,7 +69,7 @@ def task_add(request: WSGIRequest):
 
 
 @require_POST
-def task_delete(request: WSGIRequest, task_pk: int):
+def task_delete(request: WSGIRequest, task_pk: int, *args, **kwargs):
     task: Task = get_object_or_404(Task, pk=task_pk)
 
     if task.user != request.user:

@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login as login_action
 from django.contrib.auth.decorators import login_required
-from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import LoginView as BaseLoginView, PasswordResetView, PasswordResetDoneView, \
     PasswordResetConfirmView, PasswordResetCompleteView
 from django.core.handlers.wsgi import WSGIRequest
@@ -18,7 +17,7 @@ from users.forms import RegistrationForm, LoginForm, EmailModificationForm, Pass
 from users.models import User
 
 
-def register(request: WSGIRequest):
+def register(request: WSGIRequest, *args, **kwargs):
     if request.user.is_authenticated:
         return redirect(reverse('pages:index'))
 
@@ -50,14 +49,14 @@ class LoginView(BaseLoginView):
 
 
 @login_required
-def my_data(request: WSGIRequest):
+def my_data(request: WSGIRequest, *args, **kwargs):
     return render(request, 'users/my_data.html', {
         'active_menu': 'users',
     })
 
 
 @login_required
-def download_my_data(request: WSGIRequest):
+def download_my_data(request: WSGIRequest, *args, **kwargs):
     tasks = Task.objects.filter(user=request.user)
     serializer = TaskExportSerializer(tasks, many=True)
 
@@ -68,7 +67,7 @@ def download_my_data(request: WSGIRequest):
 
 
 @login_required
-def my_information(request: WSGIRequest):
+def my_information(request: WSGIRequest, *args, **kwargs):
     email_form = EmailModificationForm()
     password_form = PasswordModificationForm(user=request.user)
 
@@ -81,7 +80,7 @@ def my_information(request: WSGIRequest):
 
 @login_required
 @require_POST
-def update_email(request: WSGIRequest):
+def update_email(request: WSGIRequest, *args, **kwargs):
     email_form = EmailModificationForm(data=request.POST, instance=request.user)
 
     if email_form.is_valid():
@@ -100,7 +99,7 @@ def update_email(request: WSGIRequest):
 
 @login_required
 @require_POST
-def update_password(request: WSGIRequest):
+def update_password(request: WSGIRequest, *args, **kwargs):
     password_form = PasswordModificationForm(data=request.POST, user=request.user)
 
     if password_form.is_valid():
