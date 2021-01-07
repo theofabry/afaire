@@ -22,7 +22,7 @@ class TaskManager(models.Manager):
 
             tasks_by_date.append({
                 'date': current_date,
-                'tasks': self.filter(user=user, due_date=current_date),
+                'tasks': self.filter(user=user, due_date=current_date).order_by('content'),
             })
 
         return tasks_by_date
